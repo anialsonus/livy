@@ -169,6 +169,9 @@ object LivyConf {
    */
   val SPARK_FILE_LISTS = Entry("livy.spark.file-list-configs", null)
 
+  // Max display entries in UI
+  val DISPLAY_ENTRIES_COUNT = Entry("livy.server.display-entries-count",100)
+
   private val HARDCODED_SPARK_FILE_LISTS = Seq(
     SPARK_JARS,
     SPARK_FILES,
