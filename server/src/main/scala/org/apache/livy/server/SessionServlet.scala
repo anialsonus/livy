@@ -17,12 +17,13 @@
 
 package org.apache.livy.server
 
-import javax.servlet.http.HttpServletRequest
+import org.apache.livy.LivyConf.DISPLAY_ENTRIES_COUNT
 
+import javax.servlet.http.HttpServletRequest
 import org.scalatra._
+
 import scala.concurrent._
 import scala.concurrent.duration._
-
 import org.apache.livy.{LivyConf, Logging}
 import org.apache.livy.rsc.RSCClientFactory
 import org.apache.livy.server.batch.BatchSession
@@ -69,7 +70,7 @@ abstract class SessionServlet[S <: Session, R <: RecoveryMetadata](
 
   get("/") {
     val from = params.get("from").map(_.toInt).getOrElse(0)
-    val size = params.get("size").map(_.toInt).getOrElse(100)
+    val size = params.get("size").map(_.toInt).getOrElse(livyConf.getInt(DISPLAY_ENTRIES_COUNT))
 
     val sessions = sessionManager.all()
 
