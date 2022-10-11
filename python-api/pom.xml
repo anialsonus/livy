@@ -23,13 +23,13 @@
   <parent>
     <groupId>org.apache.livy</groupId>
     <artifactId>livy-main</artifactId>
-    <version>0.7.2-incubating-SNAPSHOT</version>
+    <version>0.7.2-arenadata</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>org.apache.livy</groupId>
   <artifactId>livy-python-api</artifactId>
-  <version>0.7.2-incubating-SNAPSHOT</version>
+  <version>0.7.2-arenadata</version>
   <packaging>pom</packaging>
 
   <build>
@@ -46,7 +46,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-            <executable>python</executable>
+            <executable>python3</executable>
               <arguments>
                 <argument>setup.py</argument>
                 <argument>sdist</argument>

@@ -18,16 +18,13 @@
 package org.apache.livy.repl
 
 import java.io.ByteArrayOutputStream
-
-import scala.tools.nsc.interpreter.Results
-
+import scala.tools.nsc.interpreter.{CompletionCandidate, Results}
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
 import org.json4s.DefaultFormats
 import org.json4s.Extraction
 import org.json4s.JsonAST._
 import org.json4s.JsonDSL._
-
 import org.apache.livy.Logging
 import org.apache.livy.rsc.driver.SparkEntries
 
@@ -53,7 +50,7 @@ abstract class AbstractSparkInterpreter extends Interpreter with Logging {
 
   protected def interpret(code: String): Results.Result
 
-  protected def completeCandidates(code: String, cursor: Int) : Array[String] = Array()
+  protected def completeCandidates(code: String, cursor: Int) : Array[CompletionCandidate] = Array()
 
   protected def valueOfTerm(name: String): Option[Any]
 
@@ -113,7 +110,7 @@ abstract class AbstractSparkInterpreter extends Interpreter with Logging {
   }
 
   override protected[repl] def complete(code: String, cursor: Int): Array[String] = {
-      completeCandidates(code, cursor)
+      completeCandidates(code, cursor).map(cc => cc.name)
   }
 
   private def executeMagic(magic: String, rest: String): Interpreter.ExecuteResponse = {

@@ -103,7 +103,7 @@ class ZooKeeperStateStore(
       Seq.empty[String]
     } else {
       curatorClient.getChildren.forPath(prefixedKey).asScala
-    }
+    }.toSeq
   }
 
   override def remove(key: String): Unit = {

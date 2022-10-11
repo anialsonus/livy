@@ -23,17 +23,14 @@ import java.nio.ByteBuffer
 import java.nio.file.{Files, Paths}
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
-
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.concurrent.{Future, Promise}
 import scala.concurrent.duration.{Duration, FiniteDuration}
-import scala.util.{Random, Try}
-
+import scala.util.{Failure, Random, Success, Try}
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.apache.hadoop.fs.Path
 import org.apache.spark.launcher.SparkLauncher
-
 import org.apache.livy._
 import org.apache.livy.client.common.HttpMessages._
 import org.apache.livy.rsc.{PingJob, RSCClient, RSCConf}
@@ -204,11 +201,13 @@ object InteractiveSession extends Logging {
       } else {
         val sparkHome = livyConf.sparkHome().get
         val libdir = sparkMajorVersion match {
-          case 2 =>
+          case 2 | 3 =>
             if (new File(sparkHome, "RELEASE").isFile) {
               new File(sparkHome, "jars")
-            } else {
+            } else if (new File(sparkHome, "assembly/target/scala-2.11/jars").isDirectory) {
               new File(sparkHome, "assembly/target/scala-2.11/jars")
+            } else {
+              new File(sparkHome, "assembly/target/scala-2.12/jars")
             }
           case v =>
             throw new RuntimeException(s"Unsupported Spark major version: $sparkMajorVersion")
@@ -410,13 +409,12 @@ class InteractiveSession(
     } else {
       val uriFuture = Future { client.get.getServerUri.get() }
 
-      uriFuture.onSuccess { case url =>
-        rscDriverUri = Option(url)
+      uriFuture.onComplete { case Success(url) => rscDriverUri = Option(url)
         sessionSaveLock.synchronized {
           sessionStore.save(RECOVERY_SESSION_TYPE, recoveryMetadata)
         }
+      case Failure(e) => warn("Fail to get rsc uri", e)
       }
-      uriFuture.onFailure { case e => warn("Fail to get rsc uri", e) }
 
       // Send a dummy job that will return once the client is ready to be used, and set the
       // state to "idle" at that point.

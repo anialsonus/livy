@@ -18,14 +18,13 @@ package org.apache.livy.scalaapi
 
 import java.util.Random
 import java.util.concurrent.{CountDownLatch, TimeUnit}
-
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
-
 import org.scalatest.FunSuite
-
 import org.apache.livy.LivyBaseUnitTestSuite
+
+import scala.language.postfixOps
 
 object ScalaClientTestUtils extends FunSuite with LivyBaseUnitTestSuite {
 
@@ -43,7 +42,7 @@ object ScalaClientTestUtils extends FunSuite with LivyBaseUnitTestSuite {
     for (a <- 1 to count) {
       buffer += r.nextInt()
     }
-    context.sc.parallelize(buffer, partitions).count()
+    context.sc.parallelize(buffer.toSeq, partitions).count()
   }
 
   def assertAwait(lock: CountDownLatch): Unit = {

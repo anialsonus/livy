@@ -19,21 +19,20 @@ package org.apache.livy.server.interactive
 
 import java.net.URI
 import javax.servlet.http.HttpServletRequest
-
 import scala.collection.JavaConverters._
 import scala.concurrent._
 import scala.concurrent.duration._
-
 import org.json4s.jackson.Json4sScalaModule
 import org.scalatra._
 import org.scalatra.servlet.FileUploadSupport
-
 import org.apache.livy.{CompletionRequest, ExecuteRequest, JobHandle, LivyConf, Logging}
 import org.apache.livy.client.common.HttpMessages
 import org.apache.livy.client.common.HttpMessages._
 import org.apache.livy.server.{AccessManager, SessionServlet}
 import org.apache.livy.server.recovery.SessionStore
 import org.apache.livy.sessions._
+
+import java.util.stream.{Collectors, StreamSupport}
 
 object InteractiveSessionServlet extends Logging
 
@@ -85,7 +84,7 @@ class InteractiveSessionServlet(
 
     new SessionInfo(session.id, session.name.orNull, session.appId.orNull, session.owner,
       session.proxyUser.orNull, session.state.toString, session.kind.toString,
-      session.appInfo.asJavaMap, logs.asJava)
+      session.appInfo.asJavaMap, StreamSupport.stream(logs.asJava.spliterator(), false).collect(Collectors.toList()))
   }
 
   post("/:id/stop") {

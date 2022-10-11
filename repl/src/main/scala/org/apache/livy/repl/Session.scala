@@ -21,22 +21,21 @@ import java.util.{LinkedHashMap => JLinkedHashMap}
 import java.util.Map.Entry
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
-
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
 import scala.util.control.NonFatal
-
 import org.apache.spark.{SparkConf, SparkContext}
 import org.json4s.jackson.JsonMethods.{compact, render}
 import org.json4s.DefaultFormats
 import org.json4s.JsonDSL._
-
 import org.apache.livy.Logging
 import org.apache.livy.rsc.RSCConf
 import org.apache.livy.rsc.driver.{SparkEntries, Statement, StatementState}
 import org.apache.livy.sessions._
+
+import scala.util.Failure
 
 object Session {
   val STATUS = "status"
@@ -137,7 +136,7 @@ class Session(
       entries
     }(interpreterExecutor)
 
-    future.onFailure { case _ => changeState(SessionState.Error()) }(interpreterExecutor)
+    future.onComplete { case Failure(ex) => changeState(SessionState.Error()) }(interpreterExecutor)
     future
   }
 
@@ -348,8 +347,10 @@ class Session(
           case "1" =>
             (s"""setJobGroup(sc, "$jobGroup", "Job group for statement $jobGroup", FALSE)""",
              SparkR)
-          case "2" =>
+          case "2" | "3" =>
             (s"""setJobGroup("$jobGroup", "Job group for statement $jobGroup", FALSE)""", SparkR)
+          case v =>
+            throw new IllegalArgumentException(s"Unknown Spark major version [$v]")
         }
     }
     // Set the job group
