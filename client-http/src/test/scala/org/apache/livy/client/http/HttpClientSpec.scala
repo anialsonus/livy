@@ -24,16 +24,13 @@ import java.util.concurrent.{Future => JFuture, _}
 import java.util.concurrent.atomic.AtomicLong
 import javax.servlet.ServletContext
 import javax.servlet.http.HttpServletRequest
-
 import scala.concurrent.{ExecutionContext, Future}
-
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.{eq => meq, _}
 import org.mockito.Mockito._
-import org.scalatest.{BeforeAndAfterAll, FunSpecLike}
+import org.scalatest.{BeforeAndAfterAll}
 import org.scalatra.LifeCycle
 import org.scalatra.servlet.ScalatraListener
-
 import org.apache.livy._
 import org.apache.livy.client.common.{BufferUtils, Serializer}
 import org.apache.livy.client.common.HttpMessages._
@@ -43,13 +40,14 @@ import org.apache.livy.server.recovery.SessionStore
 import org.apache.livy.sessions.{InteractiveSessionManager, SessionState, Spark}
 import org.apache.livy.test.jobs.Echo
 import org.apache.livy.utils.AppInfo
+import org.scalatest.funspec.AnyFunSpecLike
 
 /**
  * The test for the HTTP client is written in Scala so we can reuse the code in the livy-server
  * module, which implements the client session backend. The client servlet has some functionality
  * overridden to avoid creating sub-processes for each seession.
  */
-class HttpClientSpec extends FunSpecLike with BeforeAndAfterAll with LivyBaseUnitTestSuite {
+class HttpClientSpec extends AnyFunSpecLike with BeforeAndAfterAll with LivyBaseUnitTestSuite {
 
   import HttpClientSpec._
 

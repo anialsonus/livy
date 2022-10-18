@@ -17,11 +17,11 @@
 
 package org.apache.livy.repl
 
-import org.scalatest._
-
 import org.apache.livy.LivyBaseUnitTestSuite
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
-class SparkInterpreterSpec extends FunSpec with Matchers with LivyBaseUnitTestSuite {
+class SparkInterpreterSpec extends AnyFunSpec with Matchers with LivyBaseUnitTestSuite {
   describe("SparkInterpreter") {
     val interpreter = new SparkInterpreter(null)
 

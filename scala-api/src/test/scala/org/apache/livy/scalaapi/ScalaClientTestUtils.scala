@@ -21,12 +21,12 @@ import java.util.concurrent.{CountDownLatch, TimeUnit}
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
-import org.scalatest.FunSuite
 import org.apache.livy.LivyBaseUnitTestSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.language.postfixOps
 
-object ScalaClientTestUtils extends FunSuite with LivyBaseUnitTestSuite {
+object ScalaClientTestUtils extends AnyFunSuite with LivyBaseUnitTestSuite {
 
   val Timeout = 40
 

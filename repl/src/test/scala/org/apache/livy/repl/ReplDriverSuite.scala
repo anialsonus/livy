@@ -19,21 +19,18 @@ package org.apache.livy.repl
 
 import java.net.URI
 import java.util.concurrent.TimeUnit
-
 import scala.concurrent.duration._
 import scala.language.postfixOps
-
 import org.apache.spark.launcher.SparkLauncher
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-import org.scalatest.FunSuite
 import org.scalatest.concurrent.Eventually._
-
 import org.apache.livy._
 import org.apache.livy.rsc.{PingJob, RSCClient, RSCConf}
 import org.apache.livy.sessions.Spark
+import org.scalatest.funsuite.AnyFunSuite
 
-class ReplDriverSuite extends FunSuite with LivyBaseUnitTestSuite {
+class ReplDriverSuite extends AnyFunSuite with LivyBaseUnitTestSuite {
 
   private implicit val formats = DefaultFormats
 

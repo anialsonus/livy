@@ -17,22 +17,20 @@
 package org.apache.livy.scalaapi
 
 import java.util.concurrent.{CountDownLatch, TimeUnit}
-
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
-
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
 import org.scalatest.concurrent.ScalaFutures
-
 import org.apache.livy.{JobHandle, LivyBaseUnitTestSuite}
 import org.apache.livy.JobHandle.{Listener, State}
+import org.scalatest.funsuite.AnyFunSuite
 
-class ScalaJobHandleTest extends FunSuite
+class ScalaJobHandleTest extends AnyFunSuite
   with ScalaFutures
   with BeforeAndAfter
   with LivyBaseUnitTestSuite {
