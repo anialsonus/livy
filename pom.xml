@@ -112,7 +112,7 @@
     <scala-2.13.version>2.13.8</scala-2.13.version>
     <scala.binary.version>2.13</scala.binary.version>
     <scala.version>${scala-2.13.version}</scala.version>
-    <scalatest.version>3.0.8</scalatest.version>
+    <scalatest.version>3.2.14</scalatest.version>
     <scalatra.version>2.7.1</scalatra.version>
     <java.version>1.8</java.version>
     <test.redirectToFile>true</test.redirectToFile>
