@@ -16,6 +16,6 @@
 # Apache Project configurations
 #
 name: Apache Livy
-version: 0.7.2-arenadata-SNAPSHOT
+version: 0.7.2-arenadata4-SNAPSHOT
 
 podling: true
