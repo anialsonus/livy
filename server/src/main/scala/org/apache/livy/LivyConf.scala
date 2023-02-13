@@ -264,6 +264,8 @@ object LivyConf {
     "spark.yarn.jars"
   )
 
+  val PROXY_USER_AUTO_IMPERSONATION = Entry("livy.server.proxyuser.auto.impersonation", false)
+
   case class DepConf(
       override val key: String,
       override val version: String,

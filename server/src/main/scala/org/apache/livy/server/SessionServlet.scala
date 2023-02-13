@@ -168,12 +168,23 @@ abstract class SessionServlet[S <: Session, R <: RecoveryMetadata](
   }
 
   /**
+   * Returns the impersonated user as remote user when proxy user auto impersonation is on.
+   */
+  private def autoImpersonatedUser(request: HttpServletRequest): Option[String] = {
+    if (livyConf.getBoolean(LivyConf.PROXY_USER_AUTO_IMPERSONATION))
+      Option(request.getRemoteUser)
+    else {
+      None
+    }
+  }
+
+  /**
    * Returns the proxyUser for the given request.
    */
   protected def proxyUser(
       request: HttpServletRequest,
       createRequestProxyUser: Option[String]): Option[String] = {
-    impersonatedUser(request).orElse(createRequestProxyUser)
+    impersonatedUser(request).orElse(createRequestProxyUser).orElse(autoImpersonatedUser(request))
   }
 
   /**
