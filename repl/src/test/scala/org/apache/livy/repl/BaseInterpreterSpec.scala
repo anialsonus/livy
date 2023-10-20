@@ -25,6 +25,10 @@ abstract class BaseInterpreterSpec extends AnyFlatSpec with Matchers with LivyBa
 
   def createInterpreter(): Interpreter
 
+  def addLineSeparator(line: String): String = {
+    line.appendedAll(System.lineSeparator())
+  }
+
   def withInterpreter(testCode: Interpreter => Any): Unit = {
     val interpreter = createInterpreter()
     try {

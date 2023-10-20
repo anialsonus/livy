@@ -21,7 +21,7 @@ import java.io.{File, PrintWriter}
 import java.net.URLClassLoader
 import java.nio.file.{Files, Paths}
 import scala.tools.nsc.Settings
-import scala.tools.nsc.interpreter.{CompletionCandidate, IMain}
+import scala.tools.nsc.interpreter.{CompletionCandidate, IMain, PresentationCompilationResult}
 import scala.tools.nsc.interpreter.Results.Result
 import org.apache.spark.SparkConf
 import org.apache.spark.repl.SparkILoop
@@ -44,7 +44,7 @@ class SparkInterpreter(protected override val conf: SparkConf) extends AbstractS
     conf.set("spark.repl.class.outputDir", outputDir.getAbsolutePath)
 
     val settings = new Settings()
-    settings.processArguments(List("-Yrepl-class-based",
+    settings.processArguments(List("-Yrepl-class-based", "-Wconf:any:silent",
       "-Yrepl-outdir", s"${outputDir.getAbsolutePath}"), true)
     settings.usejavacp.value = true
     settings.embeddedDefaults(Thread.currentThread().getContextClassLoader())
@@ -100,16 +100,10 @@ class SparkInterpreter(protected override val conf: SparkConf) extends AbstractS
   }
 
   override protected def completeCandidates(code: String, cursor: Int) : Array[CompletionCandidate] = {
-    val completer : Completion = {
-      try {
-        val cls = Class.forName("scala.tools.nsc.interpreter.PresentationCompilerCompleter")
-        cls.getDeclaredConstructor(classOf[IMain]).newInstance(sparkILoop.intp)
-          .asInstanceOf[Completion]
-      } catch {
-        case e : ClassNotFoundException => NoCompletion
-      }
+    sparkILoop.intp.presentationCompile(cursor, code) match {
+      case Right(c) => c.completionCandidates()._2.toArray
+      case Left(_) => Array()
     }
-    completer.complete(code, cursor).candidates.toArray
   }
 
   override protected def valueOfTerm(name: String): Option[Any] = {
