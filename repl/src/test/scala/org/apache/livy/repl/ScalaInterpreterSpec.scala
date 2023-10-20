@@ -33,24 +33,24 @@ class ScalaInterpreterSpec extends BaseInterpreterSpec {
   it should "execute `1 + 2` == 3" in withInterpreter { interpreter =>
     val response = interpreter.execute("1 + 2")
     response should equal (Interpreter.ExecuteSuccess(
-      TEXT_PLAIN -> "res0: Int = 3\n"
+      TEXT_PLAIN -> "val res0: Int = 3\n"
     ))
   }
 
   it should "execute multiple statements" in withInterpreter { interpreter =>
     var response = interpreter.execute("val x = 1")
     response should equal (Interpreter.ExecuteSuccess(
-      TEXT_PLAIN -> "x: Int = 1\n"
+      TEXT_PLAIN -> "val x: Int = 1\n"
     ))
 
     response = interpreter.execute("val y = 2")
     response should equal (Interpreter.ExecuteSuccess(
-      TEXT_PLAIN -> "y: Int = 2\n"
+      TEXT_PLAIN -> "val y: Int = 2\n"
     ))
 
     response = interpreter.execute("x + y")
     response should equal (Interpreter.ExecuteSuccess(
-      TEXT_PLAIN -> "res0: Int = 3\n"
+      TEXT_PLAIN -> "val res0: Int = 3\n"
     ))
   }
 
@@ -64,7 +64,7 @@ class ScalaInterpreterSpec extends BaseInterpreterSpec {
         |x + y
       """.stripMargin)
     response should equal(Interpreter.ExecuteSuccess(
-      TEXT_PLAIN -> "x: Int = 1\ny: Int = 2\nres2: Int = 3\n"
+      TEXT_PLAIN -> "val x: Int = 1\nval y: Int = 2\nval res2: Int = 3\n"
     ))
   }
 
@@ -96,7 +96,7 @@ class ScalaInterpreterSpec extends BaseInterpreterSpec {
       """.stripMargin)
 
     response should equal(Interpreter.ExecuteSuccess(
-      TEXT_PLAIN -> "res0: Int = 3\n"
+      TEXT_PLAIN -> "val res0: Int = 3\n"
     ))
   }
 
@@ -133,7 +133,7 @@ class ScalaInterpreterSpec extends BaseInterpreterSpec {
       """sc.parallelize(0 to 1).map { i => i+1 }.collect""".stripMargin)
 
     response should equal(Interpreter.ExecuteSuccess(
-      TEXT_PLAIN -> "res0: Array[Int] = Array(1, 2)\n"
+      TEXT_PLAIN -> "val res0: Array[Int] = Array(1, 2)\n"
     ))
   }
 
