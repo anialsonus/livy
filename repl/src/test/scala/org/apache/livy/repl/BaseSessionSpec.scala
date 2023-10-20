@@ -40,6 +40,8 @@ abstract class BaseSessionSpec(kind: Kind)
   private val rscConf = new RSCConf(new Properties()).set(RSCConf.Entry.SESSION_KIND, kind.toString)
 
   private val sparkConf = new SparkConf()
+    .setMaster("local[*]")
+    .setAppName("test")
 
   protected def execute(session: Session)(code: String): Statement = {
     val id = session.execute(code)

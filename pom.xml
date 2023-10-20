@@ -121,7 +121,7 @@
     <spark.bin.download.url>
       https://archive.apache.org/dist/spark/spark-3.3.0/spark-3.3.0-bin-hadoop3-scala2.13.tgz
     </spark.bin.download.url>
-    <spark.bin.name>spark-3.3.0-bin-hadoop3-scala2.13</spark.bin.name>
+    <spark.bin.name>spark-3.3.2-bin-hadoop3-scala2.13</spark.bin.name>
     <!--  used for testing, NCSARequestLog use it for access log  -->
     <livy.log.dir>${basedir}/target</livy.log.dir>
 
@@ -136,7 +136,7 @@
     <ldap-api.version>1.0.0-M33</ldap-api.version>
 
     <curator.version>2.7.1</curator.version>
-    <zookeeper.version>3.4.6</zookeeper.version>
+    <zookeeper.version>3.5.10</zookeeper.version>
 
     <!--
       Properties for the copyright header style checks. Modules that use the ASF header

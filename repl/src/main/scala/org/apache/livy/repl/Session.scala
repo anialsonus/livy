@@ -35,7 +35,7 @@ import org.apache.livy.rsc.RSCConf
 import org.apache.livy.rsc.driver.{SparkEntries, Statement, StatementState}
 import org.apache.livy.sessions._
 
-import scala.util.Failure
+import scala.util.{Failure, Success}
 
 object Session {
   val STATUS = "status"
@@ -136,7 +136,9 @@ class Session(
       entries
     }(interpreterExecutor)
 
-    future.onComplete { case Failure(ex) => changeState(SessionState.Error()) }(interpreterExecutor)
+    future.onComplete {
+      case Success(_) =>
+      case Failure(_) => changeState(SessionState.Error()) }(interpreterExecutor)
     future
   }
 
