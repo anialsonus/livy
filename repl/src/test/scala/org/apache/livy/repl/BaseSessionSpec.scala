@@ -37,6 +37,8 @@ abstract class BaseSessionSpec(kind: Kind)
 
   implicit val formats = DefaultFormats
 
+  protected val delimiter: String = System.lineSeparator()
+
   private val rscConf = new RSCConf(new Properties()).set(RSCConf.Entry.SESSION_KIND, kind.toString)
 
   private val sparkConf = new SparkConf()

@@ -30,8 +30,6 @@ import org.apache.livy.sessions._
 
 class SparkSessionSpec extends BaseSessionSpec(Spark) {
 
-  private val delimiter = System.lineSeparator()
-
   it should "execute `1 + 2` == 3" in withSession { session =>
     val statement = execute(session)("1 + 2")
     statement.id should equal (0)
