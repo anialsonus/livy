@@ -94,7 +94,7 @@
     <jetty.version>9.3.24.v20180605</jetty.version>
     <json4s.spark-2.11.version>3.5.5</json4s.spark-2.11.version>
     <json4s.spark-2.12.version>3.5.5</json4s.spark-2.12.version>
-    <json4s.spark-2.13.version>3.5.5</json4s.spark-2.13.version>
+    <json4s.spark-2.13.version>3.7.0-M11</json4s.spark-2.13.version>
     <json4s.version>${json4s.spark-2.13.version}</json4s.version>
     <junit.version>4.11</junit.version>
     <libthrift.version>0.9.3</libthrift.version>
