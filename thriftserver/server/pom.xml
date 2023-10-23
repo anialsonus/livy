@@ -22,7 +22,7 @@
   <parent>
     <artifactId>livy-main</artifactId>
     <groupId>org.apache.livy</groupId>
-    <version>0.7.2-arenadata4</version>
+    <version>0.7.2-arenadata5</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
